@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  # container web
+  web:
+    container_name: myweb
+    image: "nginx:v1.0"
+    ports: 
+      - 8001:80
+    volumes:
+      - ./source:/usr/share/nginx/html:ro
+      - vol:/app/vol
+    networks:
+      - mang10
+    restart: always
+
+volumes:
+  vol:
+    name: vol
+    driver_opts:
+      type: none
+      device: /home/vagrant/sharing
+      o: bind
+
+networks:
+  mang10:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: '10.0.0.0/24'
+
